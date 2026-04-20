@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey Evaro · Paul Connor</title>
+<meta name="description" content="A note from Paul Connor, Head of Product at Simplyhealth, for the team at Evaro.">
+
+<!-- Fonts: Fraunces (editorial serif) + Inter Tight (clean body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Inter+Tight:ital,wght@0,300..700;1,300..600&family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #f6f0e4;
+    --paper-deep: #efe6d4;
+    --ink: #1d1a15;
+    --ink-soft: #4a4238;
+    --accent: #b4542e;      /* warm terracotta */
+    --accent-deep: #8a3d1f;
+    --sage: #6b7a5c;         /* secondary */
+    --rule: #3a2f20;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter Tight', -apple-system, system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink);
+    background: var(--paper);
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(180, 84, 46, 0.04), transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(107, 122, 92, 0.05), transparent 55%);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay for paper texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.11 0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0.12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.45;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    z-index: 1;
+  }
+
+  .wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Reusable */
+  .serif {
+    font-family: 'Fraunces', Georgia, serif;
+    font-optical-sizing: auto;
+    font-variation-settings: 'SOFT' 30, 'WONK' 0;
+  }
+  .handwrite {
+    font-family: 'Caveat', cursive;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 64px 0 96px;
+    position: relative;
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--ink-soft);
+  }
+
+  .hero h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: 'SOFT' 50, 'WONK' 1;
+    font-size: clamp(54px, 10vw, 120px);
+    line-height: 0.95;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 32px;
+  }
+  .hero h1 .wave {
+    display: inline-block;
+    transform-origin: 70% 70%;
+    animation: wave 2.4s ease-in-out infinite;
+    animation-delay: 1.2s;
+  }
+  @keyframes wave {
+    0%, 60%, 100% { transform: rotate(0deg); }
+    10% { transform: rotate(14deg); }
+    20% { transform: rotate(-8deg); }
+    30% { transform: rotate(14deg); }
+    40% { transform: rotate(-4deg); }
+    50% { transform: rotate(10deg); }
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-variation-settings: 'SOFT' 80, 'WONK' 1;
+  }
+
+  .hero .lede {
+    font-size: 20px;
+    color: var(--ink-soft);
+    max-width: 520px;
+    margin-bottom: 48px;
+  }
+
+  .scroll-cue {
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    opacity: 0;
+    animation: fadeUp 1s 1.6s ease-out forwards;
+  }
+  .scroll-cue svg {
+    animation: bounce 2s ease-in-out infinite;
+    animation-delay: 2.4s;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ============ STANZA PAGES ============ */
+  .stanza {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 96px 0;
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: 'SOFT' 40, 'WONK' 0;
+    font-size: clamp(28px, 4.5vw, 44px);
+    line-height: 1.25;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .stanza .line-2 {
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  .stanza p + p { margin-top: 0.4em; }
+  .stanza-small {
+    font-size: clamp(18px, 2.2vw, 22px);
+    font-family: 'Caveat', cursive;
+    color: var(--accent);
+    margin-top: 32px;
+    font-weight: 500;
+  }
+
+  /* ============ RULE ============ */
+  .rule {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 16px 0 48px;
+    color: var(--ink-soft);
+  }
+  .rule::before, .rule::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.3;
+  }
+  .rule-mark {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    color: var(--accent);
+    font-variation-settings: 'WONK' 1;
+  }
+
+  /* ============ SECTIONS ============ */
+  section {
+    padding: 64px 0;
+  }
+
+  section > h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: 'SOFT' 50, 'WONK' 1;
+    font-size: clamp(38px, 6vw, 58px);
+    line-height: 1.05;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    color: var(--ink);
+  }
+  section > h2 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  section p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 1.2em;
+    max-width: 620px;
+  }
+
+  section p strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  section p em {
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(180, 84, 46, 0.3);
+    transition: all 0.2s;
+  }
+  a:hover {
+    border-bottom-color: var(--accent);
+    background: rgba(180, 84, 46, 0.08);
+  }
+
+  /* ============ LOGOS ============ */
+  .logos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px 40px;
+    align-items: center;
+    margin: 32px 0;
+    padding: 28px 0;
+    border-top: 1px solid rgba(58, 47, 32, 0.15);
+    border-bottom: 1px solid rgba(58, 47, 32, 0.15);
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'SOFT' 50;
+    font-size: 20px;
+    color: var(--ink-soft);
+  }
+  .logos span {
+    position: relative;
+  }
+  .logos span + span::before {
+    content: '·';
+    position: absolute;
+    left: -22px;
+    color: var(--accent);
+  }
+
+  /* Logo strip */
+  .logo-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    align-items: center;
+    margin: 24px 0 32px;
+    padding: 28px 0;
+    border-top: 1px solid rgba(58, 47, 32, 0.15);
+    border-bottom: 1px solid rgba(58, 47, 32, 0.15);
+  }
+  .logo-strip img {
+    height: 44px;
+    max-width: 100%;
+    width: auto;
+    margin: 0 auto;
+    display: block;
+    object-fit: contain;
+    filter: grayscale(100%) opacity(0.55);
+    transition: filter 0.3s;
+  }
+  .logo-strip img:hover {
+    filter: grayscale(0%) opacity(1);
+  }
+  @media (max-width: 600px) {
+    .logo-strip { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  }
+
+  /* ============ QUOTE CARDS ============ */
+  .quotes-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin: 40px 0;
+  }
+  .quotes-grid {
+    max-width: 620px;
+  }
+
+  /* Expandable quotes */
+  .quote-expand {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(58, 47, 32, 0.12);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .quote-expand:hover {
+    border-color: rgba(180, 84, 46, 0.3);
+  }
+  .quote-preview {
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .quote-preview-text {
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .quote-preview-text strong {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .quote-snippet {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-top: 6px;
+    font-variation-settings: 'SOFT' 40;
+  }
+  .quote-toggle {
+    font-family: 'Caveat', cursive;
+    color: var(--accent);
+    font-size: 18px;
+    white-space: nowrap;
+    transition: transform 0.2s;
+  }
+  .quote-expand.open .quote-toggle {
+    display: none;
+  }
+  .quote-full {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .quote-expand.open .quote-full {
+    max-height: 800px;
+  }
+  .quote-full img {
+    width: 100%;
+    display: block;
+    border-top: 1px solid rgba(58, 47, 32, 0.1);
+  }
+
+  /* ============ PROJECT CARDS ============ */
+  .projects {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin: 32px 0;
+  }
+  @media (min-width: 600px) {
+    .projects { grid-template-columns: 1fr 1fr; }
+  }
+
+  .project {
+    display: block;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(58, 47, 32, 0.12);
+    padding: 24px;
+    border-radius: 4px;
+    border-bottom: 1px solid rgba(58, 47, 32, 0.12);
+    transition: transform 0.2s, border-color 0.2s, background 0.2s;
+  }
+  .project:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.7);
+  }
+  .project h3 {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'SOFT' 50, 'WONK' 1;
+    font-size: 26px;
+    margin-bottom: 8px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .project p {
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin: 0;
+    line-height: 1.5;
+  }
+  .project .tag {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .project-preview {
+    width: 100%;
+    height: auto;
+    max-height: 120px;
+    object-fit: contain;
+    object-position: left;
+    margin-bottom: 16px;
+    border-radius: 4px;
+  }
+  .project-preview-icon {
+    width: 64px;
+    border-radius: 14px;
+  }
+
+  /* ============ IMAGES ============ */
+  .photo-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 32px 0;
+  }
+  .photo-row img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: 2px;
+    filter: saturate(0.95) contrast(1.02);
+  }
+
+  .photo-single {
+    margin: 32px -8px;
+  }
+  .photo-single img {
+    width: 100%;
+    max-height: 600px;
+    object-fit: cover;
+    border-radius: 2px;
+    filter: saturate(0.95) contrast(1.02);
+  }
+  .photo-caption {
+    font-family: 'Caveat', cursive;
+    color: var(--accent);
+    font-size: 20px;
+    margin-top: 12px;
+    display: block;
+    text-align: center;
+  }
+
+  /* ============ BRIEF PULLQUOTE ============ */
+  .pullquote {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: 'SOFT' 60, 'WONK' 1;
+    font-size: clamp(24px, 3.4vw, 34px);
+    line-height: 1.3;
+    font-style: italic;
+    color: var(--accent);
+    padding: 28px 0 28px 32px;
+    margin: 32px 0;
+    border-left: 3px solid var(--accent);
+    font-weight: 400;
+  }
+
+  /* ============ MARGINALIA / HIGHLIGHT ============ */
+  .marginalia {
+    font-family: 'Caveat', cursive;
+    color: var(--accent);
+    font-size: 20px;
+    font-weight: 500;
+    margin: 8px 0;
+    display: block;
+    transform: rotate(-1.5deg);
+  }
+
+  /* ============ CLOSE / CTA ============ */
+  .close {
+    padding: 96px 0 64px;
+    text-align: center;
+  }
+  .close h2 {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .close-sub {
+    font-family: 'Caveat', cursive;
+    color: var(--ink-soft);
+    font-size: 22px;
+    margin-bottom: 48px;
+  }
+
+  .close-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    padding: 16px 32px;
+    border-radius: 999px;
+    border: 1.5px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn.btn-yes {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--paper);
+  }
+  .btn.btn-yes:hover {
+    background: var(--accent-deep);
+    border-color: var(--accent-deep);
+  }
+  .btn.btn-no:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  /* Revealed content */
+  .reveal {
+    display: none;
+    margin-top: 56px;
+    animation: fadeUp 0.6s ease-out;
+  }
+  .reveal.show { display: block; }
+
+  .contact {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'SOFT' 40;
+    font-size: 22px;
+    line-height: 1.6;
+  }
+  .contact a { font-weight: 500; }
+  .contact-label {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-right: 12px;
+  }
+
+  .reveal-no img {
+    max-width: 400px;
+    width: 100%;
+    border-radius: 4px;
+  }
+  .reveal-no p {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'SOFT' 50, 'WONK' 1;
+    font-style: italic;
+    font-size: 24px;
+    color: var(--ink-soft);
+    margin-top: 20px;
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    border-top: 1px solid rgba(58, 47, 32, 0.15);
+    padding: 32px 0;
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  footer .handwrite {
+    font-size: 18px;
+  }
+
+  /* ============ CONFETTI ============ */
+  .confetti {
+    position: fixed;
+    width: 10px;
+    height: 14px;
+    top: -20px;
+    z-index: 9999;
+    pointer-events: none;
+    border-radius: 2px;
+  }
+
+  /* Scroll reveals (progressive enhancement) */
+  .scroll-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+  .scroll-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Drop cap for body start */
+  .dropcap::first-letter {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'SOFT' 60, 'WONK' 1;
+    font-size: 64px;
+    line-height: 0.8;
+    float: left;
+    margin: 6px 10px -2px 0;
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 0 22px; }
+    section { padding: 48px 0; }
+    .close-buttons { flex-direction: column; align-items: stretch; }
+    .btn { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================== HERO ================== -->
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">A note to Evaro · from Paul Connor</div>
+    <h1>
+      Hey <img src="evaro-dark.svg" alt="Evaro" style="height: 0.65em; vertical-align: baseline; position: relative; top: -0.04em;"> <span class="wave">👋</span><br>
+      <em style="margin-top: 0.15em; display: inline-block;">I think we should talk.</em>
+    </h1>
+    <div class="scroll-cue">
+      scroll to find out why
+      <svg width="20" height="24" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 2 L10 20 M4 14 L10 20 L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ================== POETIC INTRO ================== -->
+<section class="stanza scroll-in">
+  <div class="wrap">
+    <p>Hey Evaro, my name is Paul.</p>
+    <p class="line-2">I work for Simplyhealth -</p>
+    <p>you may be familiar,</p>
+    <p class="line-2">we invest in you, after all.</p>
+  </div>
+</section>
+
+<!-- ================== POEM FAKE-OUT ================== -->
+<section class="stanza scroll-in">
+  <div class="wrap">
+    <p>Don't worry.</p>
+    <p class="line-2">I haven't actually written you a poem.</p>
+  </div>
+</section>
+
+<div class="wrap"><div class="rule"><span class="rule-mark">§</span></div></div>
+
+<!-- ================== ABOUT ME ================== -->
+<section class="scroll-in">
+  <div class="wrap">
+    <h2>A bit <em>about me</em>.</h2>
+    <p class="dropcap">I'm a product person who's spent the last seven years working in digital health. Whilst I'm a long way from being a clinician, doing what I do in a sector that can positively impact someone's health is what keeps me in it.</p>
+    <p><em>(You don't get the same "feels" from fintech.)</em></p>
+
+    <span class="marginalia">a few places I've worked:</span>
+    <div class="logo-strip">
+      <img src="logos/simplyhealth.png" alt="Simplyhealth">
+      <img src="logos/thriva.jpeg" alt="Thriva">
+      <img src="logos/gocardless.png" alt="GoCardless">
+      <img src="logos/general-assembly.png" alt="General Assembly">
+    </div>
+  </div>
+</section>
+
+<!-- ================== WHAT I'M GOOD AT ================== -->
+<section class="scroll-in">
+  <div class="wrap">
+    <h2>Building teams is what I'm <em>best at</em>.</h2>
+    <p>When I joined Simplyhealth, the team was a group of non-PMs sitting inside an IT delivery function. I've coached them into a genuinely product-led team, and I'd confidently hire every one of them again.</p>
+    <p>Three years in, not one of my reports has handed their notice in. I have, however, had to invite a couple of people to move on. <em>I'm happy to talk about that if we speak.</em></p>
+    <p>Being a Head of Product is a different skillset to being a product manager. The work I'm proudest of is the work my team does, not the work I do. I'm good at spotting potential, nurturing it, and being direct when something isn't a fit.</p>
+
+    <span class="marginalia">a couple of people I've worked with:</span>
+    <div class="quotes-grid">
+      <div class="quote-expand" onclick="this.classList.toggle('open')">
+        <div class="quote-preview">
+          <div class="quote-preview-text">
+            <strong>Tom Hiskey</strong> · Senior Product Designer at EcoOnline
+            <span class="quote-snippet">"He's a brilliant product leader… a great product person and a brilliant addition to any team!"</span>
+          </div>
+          <span class="quote-toggle">read</span>
+        </div>
+        <div class="quote-full">
+          <img src="quote-tom.png" alt="LinkedIn recommendation from Tom Hiskey">
+        </div>
+      </div>
+      <div class="quote-expand" onclick="this.classList.toggle('open')">
+        <div class="quote-preview">
+          <div class="quote-preview-text">
+            <strong>Rebecca Clarke</strong> · Data Scientist
+            <span class="quote-snippet">"Paul is an inspiring product lead… a great addition to any company."</span>
+          </div>
+          <span class="quote-toggle">read</span>
+        </div>
+        <div class="quote-full">
+          <img src="quote-rebecca.png" alt="LinkedIn recommendation from Rebecca Clarke">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== HOW I THINK ================== -->
+<section class="scroll-in">
+  <div class="wrap">
+    <h2>What I <em>believe</em>.</h2>
+    <p>Good product leadership is about making thinking more visible.</p>
+    <p>If your team can't see the logic behind the priorities, they're just executing. If your business can't see how product work ladders to outcomes, they treat product as a delivery function. A lot of my time goes on making those connections explicit.</p>
+    <p>When it works, the team gets on with it. They understand the why, they're invested in the problem, and the business trusts them to crack on.</p>
+    <p>I'm reflective and like writing about product thinking from time to time.</p>
+    <div class="projects" style="max-width: 620px;">
+      <a href="https://www.linkedin.com/pulse/our-product-journey-simplyhealth-2024-paul-connor-vf9re/" target="_blank" rel="noopener" class="project">
+        <span class="tag">LinkedIn · essay</span>
+        <h3>Our product journey at Simplyhealth, 2024</h3>
+        <p>A year-in-review essay on the shift from delivery-driven to product-led, and what I've learned trying to do it.</p>
+      </a>
+      <a href="https://www.hustlebadger.com/what-do-product-teams-do/product-launch-plan-template-examples-guide/" target="_blank" rel="noopener" class="project">
+        <span class="tag">Hustle Badger · guide</span>
+        <h3>Product launch plan template, examples &amp; guide</h3>
+        <p>A practical guide on structuring product launches, from planning through execution.</p>
+      </a>
+    </div>
+    <p>I've been doing more external talks on AI in product too. <em>(More on that further down.)</em></p>
+  </div>
+</section>
+
+<!-- ================== BUILDER ================== -->
+<section class="scroll-in">
+  <div class="wrap">
+    <h2>I'm still a <em>builder</em> of things at heart.</h2>
+    <p>The AI revolution is removing the barrier to building things, and it's unlocked a few things for me.</p>
+
+    <p><strong>I'm shipping things myself again.</strong></p>
+    <div class="projects">
+      <a href="https://phrazy.co/" target="_blank" rel="noopener" class="project">
+        <video src="images/optimized/phrazy-gameplay.mp4" autoplay loop muted playsinline class="project-preview" style="border-radius: 8px;"></video>
+        <span class="tag">a game · live</span>
+        <h3>Phrazy.co</h3>
+        <p>My Catchphrase-meets-Wordle AI fever dream. Launched in January.</p>
+      </a>
+      <a href="https://apps.apple.com/kh/app/phrase-world/id6760721450" target="_blank" rel="noopener" class="project">
+        <img src="images/optimized/phrase-world-preview.png" alt="Phrase World" class="project-preview project-preview-icon">
+        <span class="tag">an app · live</span>
+        <h3>Phrase World</h3>
+        <p>My pivoted idea that I hope has a shot at making some decent side income. Live on the App Store.</p>
+      </a>
+    </div>
+
+    <p><strong>I'm leading my team to become AI-native PMs.</strong></p>
+    <p>I'm rolling Claude out across the team. The goal is simple: maximise the time they spend on the work AI can't do. Talking to customers, reading data, making product decisions. Automate the rest.</p>
+
+    <p><strong>I've been talking about this publicly.</strong></p>
+    <p>I've been exploring what AI actually changes about the craft. What it's unlocking creatively, where it's overhyped, and what it means for how we build products. I've done a couple of talks on this recently. <em>(I'm a confident speaker, and I want to do more of it.)</em></p>
+    <div class="photo-row">
+      <img src="images/optimized/talk-phrazy.jpg" alt="Paul speaking about Phrazy and AI">
+      <img src="images/optimized/talk-mojo.jpg" alt="Paul speaking at Mojo">
+    </div>
+
+    <p>The bigger payoff of all this: building things again has put me back inside the product and engineering process at a much more granular level than my day job allows. My coaching hat now has stronger opinions on it.</p>
+  </div>
+</section>
+
+<!-- ================== YOUR BRIEF ================== -->
+<section class="scroll-in">
+  <div class="wrap">
+    <h2>Having read <em>your brief</em>.</h2>
+    <p>A few bits stood out. Responding to them here, quickly.</p>
+
+    <div class="pullquote">You'll figure out what stays, what gets rebuilt, what plugs in natively, and what gets strangled out.</div>
+    <p>The Simplyhealth partner services network is a version of this work. Individual partnerships used to sit as separate integrations. We've been consolidating them into a single network layer so new services can plug in through configuration rather than custom journey design. The strategic work here is getting the business comfortable with the short-term cost of rebuilding, in exchange for long-term unit economics that compound.</p>
+    <p>I also think removing things from the product is one of the most under-used skills in product management. At Thriva I swung the axe on packages that weren't converting, and it drove a meaningful jump in conversion on the core product. Most of the value in a platform consolidation comes from the things you stop doing, not the things you add.</p>
+
+    <div class="pullquote">Product Managers operate as Product Builders, not backlog managers or coordinators.</div>
+    <p>Agreed, and I think this is the hardest culture shift in the spec. You can't do it by rewriting job descriptions. PMs become builders when they have the skill, the data, and the air cover to back their own judgement calls. Skill and data can be taught. Air cover has to be created for them, by holding the line with the rest of the business. My job is the third one more than the first two.</p>
+
+    <div class="pullquote">You'll lead conversion optimisation across the patient funnel as a shared discipline with Marketing and Category Management.</div>
+    <p>My product background is in growth teams, and I've worked in marketing functions as a product marketer too. The biggest impact comes from both sides working on the same problem, and is how I have set things up to run at Simplyhealth.</p>
+  </div>
+</section>
+
+<!-- ================== NORWICH ================== -->
+<section class="scroll-in">
+  <div class="wrap">
+    <h2>About <em>Norwich</em>.</h2>
+    <div class="photo-single">
+      <img src="images/optimized/norwich.jpg" alt="Paul in Norwich with his wife and son">
+      <span class="photo-caption">[your caption here, Paul]</span>
+    </div>
+    <p>Norwich is a great city and one I'm genuinely happy to spend time in. I'm settled in South London, but I'd be in the office one or two days a week. Enough to build the kind of in-person rhythm that makes a team work, while keeping the deep-focus time that makes me good at the job.</p>
+    <p>Worth a conversation about how that lands with you.</p>
+  </div>
+</section>
+
+<!-- ================== CLOSE ================== -->
+<section class="close scroll-in">
+  <div class="wrap">
+    <h2>So, do you think <em>we should talk</em>?</h2>
+    <p class="close-sub">(don't worry, I'm not tracking your responses)</p>
+    <div class="close-buttons">
+      <button class="btn btn-yes" onclick="sayYes()">Yes, let's chat</button>
+      <button class="btn btn-no" onclick="sayNo()">No, not for me</button>
+    </div>
+
+    <div class="reveal reveal-yes" id="reveal-yes">
+      <div class="contact">
+        <p style="margin-bottom: 8px;"><span class="contact-label">Email</span><a href="mailto:[email protected]">[your email here]</a></p>
+        <p style="margin-bottom: 8px;"><span class="contact-label">LinkedIn</span><a href="https://linkedin.com/in/paul-c" target="_blank" rel="noopener">linkedin.com/in/paul-c</a></p>
+        <p style="margin-bottom: 8px;"><span class="contact-label">CV</span><a href="#" id="cv-link">download</a></p>
+      </div>
+      <p class="handwrite" style="font-size: 28px; margin-top: 32px;">Thanks for reading. Talk soon.</p>
+    </div>
+
+    <div class="reveal reveal-no" id="reveal-no">
+      <img src="https://media.giphy.com/media/l0Iyc68utBTGrZ4gg/giphy.gif" alt="Sad walk">
+      <p>Ok, no hard feelings.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="handwrite">made by Paul, April 2026</p>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveals
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
+
+  document.querySelectorAll('.scroll-in').forEach(el => io.observe(el));
+
+  // Close buttons
+  function sayYes() {
+    document.getElementById('reveal-no').classList.remove('show');
+    document.getElementById('reveal-yes').classList.add('show');
+    fireConfetti();
+    setTimeout(() => {
+      document.getElementById('reveal-yes').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  }
+
+  function sayNo() {
+    document.getElementById('reveal-yes').classList.remove('show');
+    document.getElementById('reveal-no').classList.add('show');
+    setTimeout(() => {
+      document.getElementById('reveal-no').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  }
+
+  // Confetti
+  function fireConfetti() {
+    const colors = ['#b4542e', '#6b7a5c', '#1d1a15', '#efe6d4', '#8a3d1f'];
+    const count = 80;
+    for (let i = 0; i < count; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.transform = `rotate(${Math.random() * 360}deg)`;
+      c.style.animation = `confettiFall ${2 + Math.random() * 2}s ${Math.random() * 0.6}s ease-in forwards`;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 5000);
+    }
+  }
+
+  // Inject confetti keyframes dynamically so we can use vh
+  const styleEl = document.createElement('style');
+  styleEl.textContent = `
+    @keyframes confettiFall {
+      to {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+  `;
+  document.head.appendChild(styleEl);
+</script>
+
+</body>
+</html>
