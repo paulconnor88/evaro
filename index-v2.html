@@ -683,6 +683,20 @@
 </head>
 <body>
 
+<!-- ==================== PASSWORD GATE ==================== -->
+<div id="pw-gate" style="position:fixed;inset:0;z-index:9999;background:var(--paper);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;">
+  <h2 style="font-family:'Fraunces',Georgia,serif;font-variation-settings:'SOFT' 50,'WONK' 1;font-size:28px;font-weight:500;color:var(--ink);text-align:center;">This page is private.</h2>
+  <form onsubmit="event.preventDefault();if(document.getElementById('pw-input').value==='evaro123'){document.getElementById('pw-gate').style.display='none';document.body.style.overflow='auto';sessionStorage.setItem('evaro-auth','1');}else{document.getElementById('pw-err').style.display='block';}" style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+    <input id="pw-input" type="password" placeholder="Enter password" autofocus style="font-family:'Inter Tight',sans-serif;font-size:16px;padding:12px 20px;border:1.5px solid rgba(58,47,32,0.2);border-radius:999px;background:rgba(255,255,255,0.5);color:var(--ink);outline:none;width:240px;text-align:center;">
+    <button type="submit" style="font-family:'Inter Tight',sans-serif;font-size:15px;font-weight:500;padding:10px 28px;border-radius:999px;border:1.5px solid var(--accent);background:var(--accent);color:var(--paper);cursor:pointer;">Enter</button>
+    <p id="pw-err" style="display:none;font-family:'Caveat',cursive;color:var(--accent);font-size:18px;">Nope, try again.</p>
+  </form>
+</div>
+<script>
+  if(sessionStorage.getItem('evaro-auth')==='1'){document.getElementById('pw-gate').style.display='none';}
+  else{document.body.style.overflow='hidden';}
+</script>
+
 <!-- ==================== 1. HERO ==================== -->
 <section class="hero">
   <div class="wrap">
